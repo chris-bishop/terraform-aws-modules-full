@@ -2,7 +2,7 @@
 
 RUN_CONTEXT_DIR="$(pwd)";
 
-LOCAL_ROOT_DIR="/home/$(whoami)/scripts/_GitPages/strapicms-src/terraform-aws-modules";
+LOCAL_ROOT_DIR="/home/$(whoami)/scripts/_GitPages/strapicms-src/terraform-aws-modules-full";
 
 echo "mkdir -p ${LOCAL_ROOT_DIR};";
 
@@ -52,9 +52,21 @@ declare -A tfAwsSampleModuleGitRepos=(
 
 for i in "${!tfAwsSampleModuleGitRepos[@]}"
 do
-    echo "key  : $i"
-	echo "git clone ${tfAwsSampleModuleGitRepos[$i]};";
-    git clone ${tfAwsSampleModuleGitRepos[$i]};
+    echo "key  : $i";
+    echo "val  : ${tfAwsSampleModuleGitRepos[$i]}";
+    echo "Check for Existing Local Clone: ${LOCAL_ROOT_DIR}/${tfAwsSampleModuleGitRepos[$i]##*/}";
+    if [[ -d "${LOCAL_ROOT_DIR}/${tfAwsSampleModuleGitRepos[$i]##*/}" ]];
+    then
+        echo "Found Local Clone on Filesystem: ${LOCAL_ROOT_DIR}/${tfAwsSampleModuleGitRepos[$i]##*/}";
+        cd "${LOCAL_ROOT_DIR}/${tfAwsSampleModuleGitRepos[$i]##*/}";
+        echo "git pull origin master;";
+        git pull origin master;
+        cd ${LOCAL_ROOT_DIR};
+    else
+        echo "Exec Bootstrap Clone For: ${tfAwsSampleModuleGitRepos[$i]}";
+	    echo "git clone ${tfAwsSampleModuleGitRepos[$i]};";
+        git clone ${tfAwsSampleModuleGitRepos[$i]};
+    fi
 done;
 
 cd ${RUN_CONTEXT_DIR};
