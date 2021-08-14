@@ -1,8 +1,3 @@
-# Terraform AWS Provider Sample Module Git Repositories:
-
-### **You can either copy / paste your desired individual sample repositories, or use the bash script below to clone them all locally :-)
-
-```bash
 #!/bin/bash
 
 RUN_CONTEXT_DIR="$(pwd)";
@@ -65,4 +60,3 @@ done;
 cd ${RUN_CONTEXT_DIR};
 
 echo "All Terraform AWS Module Sample Repositores Cloned to Localhost Successfully!";
-```
